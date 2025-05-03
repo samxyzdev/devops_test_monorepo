@@ -1,16 +1,15 @@
 name: Deploy to staging
 on:
   push:
-    branches:
-      - "main"
+    branches: [main]
 jobs:
   redeploy_everything:
+    runs-on: ubuntu-latest
     name: Deploying everything to the stagin cluster
 
     steps:
-      - name: SSH into server
       - run: |
-          echo ${{secrets.SSH_PRIVATE_KEY}} &> ~/ssh_key
+          echo "${{secrets.SSH_PRIVATE_KEY}}" &> ~/ssh_key
           ssh -i ~/.ssh/id_rsa_do root@143.244.143.156
           cd devops_test_monorepo/ && git pull
           pnpm install
